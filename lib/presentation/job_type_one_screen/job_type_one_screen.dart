@@ -1,0 +1,14 @@
+import '../job_type_one_screen/widgets/jobtypeone_item_widget.dart';import 'bloc/job_type_one_bloc.dart';import 'models/job_type_one_model.dart';import 'models/jobtypeone_item_model.dart';import 'package:basri_s_application5/core/app_export.dart';import 'package:basri_s_application5/widgets/app_bar/appbar_leading_image.dart';import 'package:basri_s_application5/widgets/app_bar/appbar_title.dart';import 'package:basri_s_application5/widgets/app_bar/custom_app_bar.dart';import 'package:basri_s_application5/widgets/custom_elevated_button.dart';import 'package:flutter/material.dart';class JobTypeOneScreen extends StatelessWidget {const JobTypeOneScreen({Key? key}) : super(key: key);
+
+static Widget builder(BuildContext context) { return BlocProvider<JobTypeOneBloc>(create: (context) => JobTypeOneBloc(JobTypeOneState(jobTypeOneModelObj: JobTypeOneModel()))..add(JobTypeOneInitialEvent()), child: JobTypeOneScreen()); } 
+@override Widget build(BuildContext context) { mediaQueryData = MediaQuery.of(context); return SafeArea(child: Scaffold(appBar: _buildAppBar(context), body: Container(width: double.maxFinite, padding: EdgeInsets.all(24.h), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Container(width: 275.h, margin: EdgeInsets.only(right: 51.h), child: Text("msg_what_type_of_job".tr, maxLines: 2, overflow: TextOverflow.ellipsis, style: theme.textTheme.headlineSmall!.copyWith(height: 1.40))), SizedBox(height: 43.v), _buildJobTypeOne(context)])), bottomNavigationBar: _buildSave(context))); } 
+/// Section Widget
+PreferredSizeWidget _buildAppBar(BuildContext context) { return CustomAppBar(leadingWidth: 45.h, leading: AppbarLeadingImage(imagePath: ImageConstant.imgClose, margin: EdgeInsets.only(left: 21.h, top: 2.v, bottom: 29.v), onTap: () {onTapClose(context);}), centerTitle: true, title: AppbarTitle(text: "lbl_j_bizz".tr)); } 
+/// Section Widget
+Widget _buildJobTypeOne(BuildContext context) { return BlocSelector<JobTypeOneBloc, JobTypeOneState, JobTypeOneModel?>(selector: (state) => state.jobTypeOneModelObj, builder: (context, jobTypeOneModelObj) {return ListView.separated(physics: NeverScrollableScrollPhysics(), shrinkWrap: true, separatorBuilder: (context, index) {return SizedBox(height: 16.v);}, itemCount: jobTypeOneModelObj?.jobtypeoneItemList.length ?? 0, itemBuilder: (context, index) {JobtypeoneItemModel model = jobTypeOneModelObj?.jobtypeoneItemList[index] ?? JobtypeoneItemModel(); return JobtypeoneItemWidget(model, onTapRadio: (value) {context.read<JobTypeOneBloc>().add(JobtypeoneItemEvent(index: index, radioGroup: value));});});}); } 
+/// Section Widget
+Widget _buildSave(BuildContext context) { return CustomElevatedButton(text: "lbl_save".tr, margin: EdgeInsets.only(left: 24.h, right: 24.h, bottom: 61.v)); } 
+
+/// Navigates to the previous screen.
+onTapClose(BuildContext context) { NavigatorService.goBack(); } 
+ }

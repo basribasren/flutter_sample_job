@@ -1,0 +1,7 @@
+import 'package:equatable/equatable.dart';import 'package:flutter/material.dart';import '/core/app_export.dart';import '../models/jobtypeone_item_model.dart';import 'package:basri_s_application5/presentation/job_type_one_screen/models/job_type_one_model.dart';part 'job_type_one_event.dart';part 'job_type_one_state.dart';/// A bloc that manages the state of a JobTypeOne according to the event that is dispatched to it.
+class JobTypeOneBloc extends Bloc<JobTypeOneEvent, JobTypeOneState> {JobTypeOneBloc(JobTypeOneState initialState) : super(initialState) { on<JobTypeOneInitialEvent>(_onInitialize); on<JobtypeoneItemEvent>(_jobtypeoneItem); }
+
+_onInitialize(JobTypeOneInitialEvent event, Emitter<JobTypeOneState> emit, ) async  { emit(state.copyWith(jobTypeOneModelObj: state.jobTypeOneModelObj?.copyWith(jobtypeoneItemList: fillJobtypeoneItemList()))); } 
+_jobtypeoneItem(JobtypeoneItemEvent event, Emitter<JobTypeOneState> emit, ) { List<JobtypeoneItemModel> newList = List<JobtypeoneItemModel>.from(state.jobTypeOneModelObj!.jobtypeoneItemList); newList[event.index] = newList[event.index].copyWith(radioGroup: event.radioGroup); emit(state.copyWith(jobTypeOneModelObj: state.jobTypeOneModelObj?.copyWith(jobtypeoneItemList: newList))); } 
+List<JobtypeoneItemModel> fillJobtypeoneItemList() { return [JobtypeoneItemModel(curveOne: ImageConstant.imgCurve15), JobtypeoneItemModel(curveOne: ImageConstant.imgCurve16), JobtypeoneItemModel(curveOne: ImageConstant.imgCurve18)]; } 
+ }
